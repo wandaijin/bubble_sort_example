@@ -1,4 +1,21 @@
 use rand::prelude::*;
+use std::cmp::Ordering;
+
+#[derive(Debug, Clone, Copy)]
+struct CmpVaule {
+    value: i32,
+}
+
+impl PartialEq for CmpVaule {
+    fn eq(&self, other: &Self) -> bool {
+        self.value == other.value
+    }
+}
+impl PartialOrd for CmpVaule {
+    fn partial_cmp(&self, other: &Self) -> Option<Ordering> {
+        self.value.partial_cmp(&other.value)
+    }
+}
 
 fn main() {
     let mut rng = rand::thread_rng();
@@ -26,7 +43,10 @@ fn main() {
 /**
  * sort array
  */
-fn bubble_sort(arr: &mut [i32]) {
+fn bubble_sort<T>(arr: &mut [T])
+where
+    T: PartialOrd + Copy,
+{
     let mut swapped = true;
 
     while swapped {
